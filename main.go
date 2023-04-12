@@ -160,13 +160,13 @@ func addMoodResults () (htmlOutput string) {
 	htmlOutput += "<td style='font-size:30px;color:DarkOrange'>%.2f%% Angry</td>"
 	htmlOutput += "</tr>"
 
-	//pre-existing row	
+	//brownfield row	
 	htmlOutput += "<tr style='font-size:15px;color:gray'>"
-	htmlOutput += "<td>(%.2f%% including pre-existing)</td>"
+	htmlOutput += "<td>(%.2f%% including brownfield)</td>"
 	htmlOutput += "<td>&nbsp;&nbsp;&nbsp;</td>"
-	htmlOutput += "<td>(%.2f%% including pre-existing)</td>"
+	htmlOutput += "<td>(%.2f%% including brownfield)</td>"
 	htmlOutput += "<td>&nbsp;&nbsp;&nbsp;</td>"
-	htmlOutput += "<td>(%.2f%% including pre-existing)</td>"
+	htmlOutput += "<td>(%.2f%% including brownfield)</td>"
 	htmlOutput += "</tr>"
 	
 	htmlOutput += "</table></p>"
@@ -195,7 +195,7 @@ func addAPICallsTable () (htmlOutput string) {
 	htmlOutput += "<table style='font-size:15px;color:gray' border='1'>"
 	
 	htmlOutput += "<tr>"
-	htmlOutput += "<th>Sensor</th>" + "<th>Role</th>" + "<th>Current Mood</th>"+ "<th>Pre-Existing</th>"
+	htmlOutput += "<th>Sensor</th>" + "<th>Role</th>" + "<th>Greenfield Mood</th>"+ "<th>Brownfield Mood/th>"
 	htmlOutput += "</tr>"
 
 	for _, sensor := range AllSensorsData.Sensors {
