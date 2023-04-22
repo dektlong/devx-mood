@@ -195,7 +195,7 @@ func addAPICallsTable () (htmlOutput string) {
 	htmlOutput += "<table style='font-size:15px;color:gray' border='1'>"
 	
 	htmlOutput += "<tr>"
-	htmlOutput += "<th>Sensor</th>" + "<th>Role</th>" + "<th>Greenfield Mood</th>"+ "<th>Brownfield Mood/th>"
+	htmlOutput += "<th>Sensor</th>" + "<th>Role</th>" + "<th>Greenfield Mood</th>"+ "<th>Brownfield Mood</th>"
 	htmlOutput += "</tr>"
 
 	for _, sensor := range AllSensorsData.Sensors {
