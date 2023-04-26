@@ -162,11 +162,9 @@ func moodAnalysis () (	float64, float64, //pure happy, total happy
 
 func parseHost (r *http.Request) (teamName string, apiDomain string)  {
     host := r.Host
-    host = strings.TrimSpace(host)
     hostParts := strings.Split(host, ".")
-	teamName += strings.ToUpper(hostParts[1])
-	//apiDomain += hostParts[1] + "." hostParts[2] + "." + hostParts[3]
-	apiDomain += hostParts[2]
+	teamName = strings.ToUpper(hostParts[1])
+	apiDomain = hostParts[1] + "." hostParts[2] + "." + hostParts[3]
 
 	return
  
