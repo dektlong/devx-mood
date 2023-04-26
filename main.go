@@ -32,7 +32,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	
 	teamName, apiDomain := parseHost(r)
 
-	//measureAPICall := "http://mood-sensors." + apiDomain + "/measure"
+	//measureAPICall := 
 	//activateAPICall := "http://mood-sensors." + apiDomain + "/activate"
 
 	fmt.Fprintf(w,"<body>")
@@ -88,8 +88,7 @@ func processSensorActivation(apiDomain string) (status string) {
 
 	
 	for i := 0; i < SENSORS_ACTIVATION_BATCH ; i++ {
-		//response, err := tlsClient.Get(os.Getenv(activateAPICall))
-		response, err := tlsClient.Get(os.Getenv("ACTIVATE_MEASURE_API"))	
+		response, err := tlsClient.Get("http://mood-sensors." + apiDomain + "/activate")
 		if err != nil { 
 			status = "Error in calling activate API: " + err.Error()
 		} 	 	
@@ -109,8 +108,7 @@ func processSensorsMeasurement(apiDomain string) (status string) {
 	tlsClient := &http.Client{Transport: tlsConfig}
 
 	
-	//response, err := tlsClient.Get(os.Getenv(measureAPICall))	 
-	response, err := tlsClient.Get(os.Getenv("SENSORS_MEASURE_API"))
+	response, err := tlsClient.Get(os.Getenv("http://mood-sensors." + apiDomain + "/measure")
 
 	if err != nil { 
 		status = "Error in calling measure API: " + err.Error()
