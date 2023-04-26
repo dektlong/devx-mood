@@ -36,14 +36,16 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, addBanner("Welcome team %s on %s"), teamName, apiDomain)
 
+	apiDomainTmp := "dev.dekt.io"
+
 	fmt.Fprintf(w, addHeader("DevX Mood Analyzer"))
 
 	//process APIs calls and analytics
-	if processSensorActivation(apiDomain) != "success" {
+	if processSensorActivation(apiDomainTmp) != "success" {
 		return
 	}
 	
-	if processSensorsMeasurement(apiDomain) != "success" {
+	if processSensorsMeasurement(apiDomainTmp) != "success" {
 		return
 	}
 	pureHappy,totalHappy,pureSad,totalSad,pureAngry,totalAngry := moodAnalysis()
