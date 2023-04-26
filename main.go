@@ -30,7 +30,7 @@ var AllSensorsData AllSensors
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	
-	teamName, apiDomain := processURL(r)
+	teamName, apiDomain := parseHost(r)
 
 	fmt.Fprintf(w,"<body>")
 
