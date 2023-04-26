@@ -30,18 +30,20 @@ var AllSensorsData AllSensors
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	
+	subDomain := getSubdomain(r)
+
 	fmt.Fprintf(w,"<body>")
 
-	fmt.Fprintf(w, addBanner("Welcome team %s"), getSubdomain(r))
+	fmt.Fprintf(w, addBanner("Welcome team %s"), subDomain)
 
 	fmt.Fprintf(w, addHeader("DevX Mood Analyzer"))
 
 	//process APIs calls and analytics
-	if processSensorActivation() != "success" {
+	if processSensorActivation(subDomain) != "success" {
 		return
 	}
 	
-	if processSensorsMeasurement() != "success" {
+	if processSensorsMeasurement(subDomain) != "success" {
 		return
 	}
 	pureHappy,totalHappy,pureSad,totalSad,pureAngry,totalAngry := moodAnalysis()
@@ -72,7 +74,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func processSensorActivation() (status string) {
+func processSensorActivation(string subDomain) (status string) {
 
 	tlsConfig := &http.Transport{
 	 	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -91,7 +93,7 @@ func processSensorActivation() (status string) {
 	return
 }
 
-func processSensorsMeasurement() (status string) {
+func processSensorsMeasurement(string subDomain) (status string) {
 	
 	tlsConfig := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -157,7 +159,7 @@ func getSubdomain(r *http.Request) (subDomain string)  {
     host := r.Host
     host = strings.TrimSpace(host)
     hostParts := strings.Split(host, ".")
-	subdomain += strings.Join([]string{hostParts[1]},"")
+	subDomain += strings.Join([]string{hostParts[1]},"")
  
 }
 
