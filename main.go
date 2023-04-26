@@ -74,7 +74,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func processSensorActivation(string subDomain) (status string) {
+func processSensorActivation(subDomain string) (status string) {
 
 	tlsConfig := &http.Transport{
 	 	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -93,7 +93,7 @@ func processSensorActivation(string subDomain) (status string) {
 	return
 }
 
-func processSensorsMeasurement(string subDomain) (status string) {
+func processSensorsMeasurement(subDomain string) (status string) {
 	
 	tlsConfig := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -160,6 +160,8 @@ func getSubdomain(r *http.Request) (subDomain string)  {
     host = strings.TrimSpace(host)
     hostParts := strings.Split(host, ".")
 	subDomain += strings.Join([]string{hostParts[1]},"")
+
+	return
  
 }
 
