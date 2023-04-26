@@ -83,7 +83,7 @@ func processSensorActivation(apiDomain string) (status string) {
 
 	tlsClient := &http.Client{Transport: tlsConfig}
 
-	activateAPICall := "http://mood-sensors." + apiDomain + "/activate"
+	//activateAPICall := "http://mood-sensors." + apiDomain + "/activate"
 	for i := 0; i < SENSORS_ACTIVATION_BATCH ; i++ {
 		//response, err := tlsClient.Get(os.Getenv(activateAPICall))	
 		response, err := tlsClient.Get(os.Getenv("SENSORS_ACTIVATE_API"))
@@ -105,7 +105,7 @@ func processSensorsMeasurement(apiDomain string) (status string) {
 
 	tlsClient := &http.Client{Transport: tlsConfig}
 
-	measureAPICall := "http://mood-sensors." + apiDomain + "/measure"
+	//measureAPICall := "http://mood-sensors." + apiDomain + "/measure"
 	//response, err := tlsClient.Get(os.Getenv(measureAPICall))	 
 	response, err := tlsClient.Get(os.Getenv("SENSORS_MEASURE_API"))
 
