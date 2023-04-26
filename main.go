@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"strconv"
+	"strings"
 )
 
 var SENSORS_ACTIVATION_BATCH int = 20
