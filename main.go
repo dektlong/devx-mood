@@ -31,7 +31,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	
 	fmt.Fprintf(w,"<body>")
 
-	fmt.Fprintf(w, addBanner("Welcome team %s"), r.host)
+	fmt.Fprintf(w, addBanner("Welcome team %s"), r.Host)
 
 	fmt.Fprintf(w, addHeader("DevX Mood Analyzer"))
 
