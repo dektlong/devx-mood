@@ -30,20 +30,20 @@ var AllSensorsData AllSensors
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	
-	domain, subDomain := processURL(r)
+	teamName, apiDomain := processURL(r)
 
 	fmt.Fprintf(w,"<body>")
 
-	fmt.Fprintf(w, addBanner("Welcome team %s on %s"), subDomain, domain)
+	fmt.Fprintf(w, addBanner("Welcome team %s on %s"), teamName, apiDomain)
 
 	fmt.Fprintf(w, addHeader("DevX Mood Analyzer"))
 
 	//process APIs calls and analytics
-	if processSensorActivation(subDomain) != "success" {
+	if processSensorActivation(apiDomain) != "success" {
 		return
 	}
 	
-	if processSensorsMeasurement(subDomain) != "success" {
+	if processSensorsMeasurement(apiDomain) != "success" {
 		return
 	}
 	pureHappy,totalHappy,pureSad,totalSad,pureAngry,totalAngry := moodAnalysis()
@@ -74,7 +74,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func processSensorActivation(subDomain string) (status string) {
+func processSensorActivation(apiDomain string) (status string) {
 
 	tlsConfig := &http.Transport{
 	 	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -82,8 +82,10 @@ func processSensorActivation(subDomain string) (status string) {
 
 
 	tlsClient := &http.Client{Transport: tlsConfig}
+
+	activateAPICall := "http://mood-sensors." + apiDomain + "/activate"
 	for i := 0; i < SENSORS_ACTIVATION_BATCH ; i++ {
-		response, err := tlsClient.Get(os.Getenv("SENSORS_ACTIVATE_API"))	
+		response, err := tlsClient.Get(os.Getenv(activateAPICall))	
 		if err != nil { 
 			status = "Error in calling activate API: " + err.Error()
 		} 	 	
@@ -93,7 +95,7 @@ func processSensorActivation(subDomain string) (status string) {
 	return
 }
 
-func processSensorsMeasurement(subDomain string) (status string) {
+func processSensorsMeasurement(apiDomain string) (status string) {
 	
 	tlsConfig := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -102,7 +104,8 @@ func processSensorsMeasurement(subDomain string) (status string) {
 
 	tlsClient := &http.Client{Transport: tlsConfig}
 
-	response, err := tlsClient.Get(os.Getenv("SENSORS_MEASURE_API"))	 
+	measureAPICall := "http://mood-sensors." + apiDomain + "/measure"
+	response, err := tlsClient.Get(os.Getenv(measureAPICall))	 
 
 	if err != nil { 
 		status = "Error in calling measure API: " + err.Error()
@@ -155,12 +158,12 @@ func moodAnalysis () (	float64, float64, //pure happy, total happy
 	
 }
 
-func processURL (r *http.Request) (domain string, subDomain string)  {
+func parseHost (r *http.Request) (teamName string, apiDomain string)  {
     host := r.Host
     host = strings.TrimSpace(host)
     hostParts := strings.Split(host, ".")
-	subDomain += strings.Join([]string{hostParts[1]},"")
-	domain += strings.Join([]string{hostParts[2]},[]string{hostParts[3]})
+	teamName += strings.ToUpper(hostParts[1])
+	apiDomain += hostParts[1] + "." hostParts[2] + "." + hostParts[3]
 
 	return
  
