@@ -153,37 +153,12 @@ func moodAnalysis () (	float64, float64, //pure happy, total happy
 	
 }
 
-func getSubdomain(r *http.Request) string {
-    //The Host that the user queried.
-    host := r.URL.Host
+func getSubdomain(r *http.Request) (subDomain string)  {
+    host := r.Host
     host = strings.TrimSpace(host)
-    //Figure out if a subdomain exists in the host given.
     hostParts := strings.Split(host, ".")
-
-    fmt.Println("host parts",hostParts)
-
-    lengthOfHostParts := len(hostParts)
-
-    // scenarios
-    // A. site.com  -> length : 2
-    // B. www.site.com -> length : 3
-    // C. www.hello.site.com -> length : 4
-
-    if lengthOfHostParts == 4 {
-        return strings.Join([]string{hostParts[1]},"") // scenario C
-    }
-    
-    if lengthOfHostParts == 3 { // scenario B with a check
-        subdomain := strings.Join([]string{hostParts[0]},"")
-        
-        if subdomain == "www" {
-            return ""
-        } else {
-            return subdomain
-        }
-    }
-
-    return "" // scenario A
+	subdomain += strings.Join([]string{hostParts[1]},"")
+ 
 }
 
 func addMoodResults () (htmlOutput string) {
