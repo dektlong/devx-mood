@@ -29,6 +29,10 @@ var AllSensorsData AllSensors
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	
+	fmt.Fprintf(w,"<body>")
+
+	fmt.Fprintf(w, addBanner("Welcome team %s"), os.Environ())
+
 	fmt.Fprintf(w, addHeader("DevX Mood Analyzer"))
 
 	//process APIs calls and analytics
@@ -55,13 +59,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, addDog("sad"))
 	}
 		
-	//render API section
+	//render info section
 	fmt.Fprintf(w,addDataTitle("Sniffing threshold"))
 	fmt.Fprintf(w,addDataContent("Above %.2f%% of pure happiness"),sniffThreshold)
 	fmt.Fprintf(w,addDataTitle("/activate API"))
 	fmt.Fprintf(w,addDataContent("%d sensors activated"),len(AllSensorsData.Sensors))
 	fmt.Fprintf(w,addDataTitle("/measure API"))
 	fmt.Fprintf(w,addDataContent(addAPICallsTable()))
+
+	fmt.Fprintf(w,"</body>")
 
 }
 
@@ -173,9 +179,17 @@ func addMoodResults () (htmlOutput string) {
 	return
 }
 
+func addBanner (myBanner string) (htmlOutput string) {
+
+    htmlOutput += "<p style='font-size:20px;color:green' align='left'>"
+	htmlOutput += myBanner
+	htmlOutput += "</p>"
+	return
+}
+
 func addHeader (myHeader string) (htmlOutput string) {
 
-    htmlOutput += "<body><p style='font-size:40px;color:navy' align='center'>"
+    htmlOutput += "<p style='font-size:40px;color:navy' align='center'>"
 	htmlOutput += myHeader
 	htmlOutput += "</p>"
 	return
@@ -207,7 +221,7 @@ func addAPICallsTable () (htmlOutput string) {
 		htmlOutput += "</tr>"
 	}
 
-	htmlOutput += "</table></p></body>"
+	htmlOutput += "</table></p>"
 	return
 }
 
