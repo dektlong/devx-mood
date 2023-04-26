@@ -30,11 +30,11 @@ var AllSensorsData AllSensors
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	
-	subDomain := getSubdomain(r)
+	domain, subDomain := processURL(r)
 
 	fmt.Fprintf(w,"<body>")
 
-	fmt.Fprintf(w, addBanner("Welcome team %s"), subDomain)
+	fmt.Fprintf(w, addBanner("Welcome team %s on %s"), subDomain, domain)
 
 	fmt.Fprintf(w, addHeader("DevX Mood Analyzer"))
 
@@ -155,11 +155,12 @@ func moodAnalysis () (	float64, float64, //pure happy, total happy
 	
 }
 
-func getSubdomain(r *http.Request) (subDomain string)  {
+func processURL (r *http.Request) (domain string, subDomain string)  {
     host := r.Host
     host = strings.TrimSpace(host)
     hostParts := strings.Split(host, ".")
 	subDomain += strings.Join([]string{hostParts[1]},"")
+	domain += strings.Join([]string{hostParts[2]},[]string{hostParts[3]})
 
 	return
  
