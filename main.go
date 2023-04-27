@@ -32,9 +32,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	
 	teamName, apiDomain := parseHost(r)
 
+	var activateApiCall = "http://mood-sensors." + apiDomain + "/activate"
+	var measureApiCall = "http://mood-sensors." + apiDomain + "/measure"
+
 	fmt.Fprintf(w,"<body>")
 
-	fmt.Fprintf(w, addBanner("Welcome team %s debug: mood-sensors.%s/activate"), teamName,apiDomain)
+	fmt.Fprintf(w, addBanner("Welcome team %s debug: %s,%s"), teamName,activateApiCall,measureApiCall)
 
 	fmt.Fprintf(w, addHeader("DevX Mood Analyzer"))
 
@@ -86,7 +89,7 @@ func processSensorActivation(apiDomain string) (status string) {
 	
 	for i := 0; i < SENSORS_ACTIVATION_BATCH ; i++ {
 		//response, err := tlsClient.Get("mood-sensors." + apiDomain + "/activate")
-		response, err := tlsClient.Get("https://mood-sensors.dev.dekt.io/activate")
+		response, err := tlsClient.Get("http://mood-sensors.dev.dekt.io/activate")
 		if err != nil { 
 			status = "Error in calling activate API: " + err.Error()
 		} 	 	
@@ -106,7 +109,7 @@ func processSensorsMeasurement(apiDomain string) (status string) {
 	tlsClient := &http.Client{Transport: tlsConfig}
 
 	
-	response, err := tlsClient.Get("https://mood-sensors.dev.dekt.io/measure")
+	response, err := tlsClient.Get("http://mood-sensors.dev.dekt.io/measure")
 
 	if err != nil { 
 		status = "Error in calling measure API: " + err.Error()
