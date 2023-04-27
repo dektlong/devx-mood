@@ -85,7 +85,8 @@ func processSensorActivation(apiDomain string) (status string) {
 
 	
 	for i := 0; i < SENSORS_ACTIVATION_BATCH ; i++ {
-		response, err := tlsClient.Get("mood-sensors." + apiDomain + "/activate")
+		//response, err := tlsClient.Get("mood-sensors." + apiDomain + "/activate")
+		response, err := tlsClient.Get("mood-sensors.dev.dekt.io/activate")
 		if err != nil { 
 			status = "Error in calling activate API: " + err.Error()
 		} 	 	
@@ -105,7 +106,7 @@ func processSensorsMeasurement(apiDomain string) (status string) {
 	tlsClient := &http.Client{Transport: tlsConfig}
 
 	
-	response, err := tlsClient.Get("mood-sensors." + apiDomain + "/measure")
+	response, err := tlsClient.Get("mood-sensors.dev.dekt.io/measure")
 
 	if err != nil { 
 		status = "Error in calling measure API: " + err.Error()
