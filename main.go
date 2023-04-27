@@ -32,12 +32,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	
 	teamName, apiDomain := parseHost(r)
 
-	var activateApiCall = "http://mood-sensors." + apiDomain + "/activate"
-	var measureApiCall = "http://mood-sensors." + apiDomain + "/measure"
-
 	fmt.Fprintf(w,"<body>")
 
-	fmt.Fprintf(w, addBanner("Welcome team %s debug: %s,%s"), teamName,activateApiCall,measureApiCall)
+	fmt.Fprintf(w, addBanner("Welcome team %s"), teamName)
 
 	fmt.Fprintf(w, addHeader("DevX Mood Analyzer"))
 
@@ -77,7 +74,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func processSensorActivation(apiDomain string) (status string) {
+func processSensorActivation (apiDomain string) (status string) {
 
 	tlsConfig := &http.Transport{
 	 	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -86,10 +83,11 @@ func processSensorActivation(apiDomain string) (status string) {
 
 	tlsClient := &http.Client{Transport: tlsConfig}
 
-	
+	var activateApiCall = "http://mood-sensors." + apiDomain + "/activate"
+
 	for i := 0; i < SENSORS_ACTIVATION_BATCH ; i++ {
 		//response, err := tlsClient.Get("mood-sensors." + apiDomain + "/activate")
-		response, err := tlsClient.Get("http://mood-sensors.dev.dekt.io/activate")
+		response, err := tlsClient.Get(activateApiCall)
 		if err != nil { 
 			status = "Error in calling activate API: " + err.Error()
 		} 	 	
@@ -99,7 +97,7 @@ func processSensorActivation(apiDomain string) (status string) {
 	return
 }
 
-func processSensorsMeasurement(apiDomain string) (status string) {
+func processSensorsMeasurement (apiDomain string) (status string) {
 	
 	tlsConfig := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -108,8 +106,8 @@ func processSensorsMeasurement(apiDomain string) (status string) {
 
 	tlsClient := &http.Client{Transport: tlsConfig}
 
-	
-	response, err := tlsClient.Get("http://mood-sensors.dev.dekt.io/measure")
+	var measureApiCall = "http://mood-sensors." + apiDomain + "/measure"
+	response, err := tlsClient.Get(measureApiCall)
 
 	if err != nil { 
 		status = "Error in calling measure API: " + err.Error()
