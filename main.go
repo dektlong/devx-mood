@@ -108,7 +108,7 @@ func processSensorsMeasurement(apiDomain string) (status string) {
 	tlsClient := &http.Client{Transport: tlsConfig}
 
 	
-	response, err := tlsClient.Get(os.Getenv("http://mood-sensors." + apiDomain + "/measure")
+	response, err := tlsClient.Get("http://mood-sensors." + apiDomain + "/measure")
 
 	if err != nil { 
 		status = "Error in calling measure API: " + err.Error()
