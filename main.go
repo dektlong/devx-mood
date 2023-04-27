@@ -32,12 +32,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	
 	teamName, apiDomain := parseHost(r)
 
-	//measureAPICall := 
-	//activateAPICall := "http://mood-sensors." + apiDomain + "/activate"
-
 	fmt.Fprintf(w,"<body>")
 
-	fmt.Fprintf(w, addBanner("Welcome team %s"), teamName)
+	fmt.Fprintf(w, addBanner("Welcome team %s debug: mood-sensors.%s/activate"), teamName,apiDomain)
 
 	fmt.Fprintf(w, addHeader("DevX Mood Analyzer"))
 
